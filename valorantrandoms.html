@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta Servidor Valorant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --valorant-red: #ff4655;
+            --valorant-dark: #1f1f1f;
+            --valorant-light: #ece8e1;
+            --valorant-blue: #14b6e6;
+        }
+
+        body {
+            background-color: var(--valorant-dark);
+            color: var(--valorant-light);
+            line-height: 1.6;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(255, 70, 85, 0.1) 0%, transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(20, 182, 230, 0.1) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--valorant-red), #bd3944);
+            padding: 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0 100%);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('/api/placeholder/1920/300') center/cover;
+            opacity: 0.1;
+            animation: pulse 2s infinite;
+        }
+
+        .title {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            position: relative;
+            animation: fadeInDown 1s;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            position: relative;
+        }
+
+        .form-group {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            transform-origin: center;
+            animation: fadeInUp 0.5s;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .form-group:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 70, 85, 0.2);
+            border-color: rgba(255, 70, 85, 0.3);
+        }
+
+        .form-section-title {
+            color: var(--valorant-red);
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--valorant-red);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--valorant-light);
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+
+        .form-group:hover label {
+            color: var(--valorant-red);
+        }
+
+        input[type="text"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 2px solid rgba(255, 70, 85, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--valorant-light);
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            outline: none;
+            border-color: var(--valorant-red);
+            box-shadow: 0 0 15px rgba(255, 70, 85, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .checkbox-item:hover {
+            background: rgba(255, 70, 85, 0.1);
+        }
+
+        button {
+            background: linear-gradient(45deg, var(--valorant-red), #bd3944);
+            color: white;
+            padding: 1.2rem 2.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            display: block;
+            margin: 2rem auto;
+            font-size: 1.1rem;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+
+        button:hover::before {
+            left: 100%;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 70, 85, 0.4);
+        }
+
+        .rating {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+            gap: 0.5rem;
+        }
+
+        .rating label {
+            flex: 1;
+            cursor: pointer;
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .rating label:hover {
+            background: var(--valorant-red);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(39, 174, 96, 0.9);
+            padding: 2rem;
+            border-radius: 10px;
+            animation: fadeIn 0.5s;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            background: var(--valorant-red);
+            transition: width 0.3s;
+        }
+
+        @keyframes shine {
+            0% {
+                background-position: -100px;
+            }
+            100% {
+                background-position: 200px;
+            }
+        }
+
+        .agent-preference {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .agent-option {
+            padding: 1rem;
+            text-align: center;
+            border-radius: 8px;
+            background: rgba(255, 255, 255, 0.05);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .agent-option:hover {
+            background: rgba(255, 70, 85, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .agent-option.selected {
+            background: var(--valorant-red);
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .form-group {
+                padding: 1.5rem;
+            }
+            
+            .rating {
+                flex-direction: column;
+            }
+            
+            .rating label {
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <h1 class="title animate__animated animate__fadeInDown">Encuesta Servidor Valorant</h1>
+        <p class="subtitle animate__animated animate__fadeIn">¡Ayúdanos a crear la mejor comunidad!</p>
+    </header>
+
+    <div class="container">
+        <form id="surveyForm" class="animate__animated animate__fadeInUp">
+            <div class="form-group">
+                <h2 class="form-section-title">Información Personal</h2>
+                <label for="nickname">Nickname de Discord</label>
+                <input type="text" id="nickname" required placeholder="Tu nickname#0000">
+                
+                <label for="valorantID">ID de Valorant</label>
+                <input type="text" id="valorantID" required placeholder="Nombre#TAG">
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Experiencia en el Juego</h2>
+                <label for="rank">Rango Actual en Valorant</label>
+                <select id="rank" required>
+                    <option value="">Selecciona tu rango</option>
+                    <option value="Iron">Hierro</option>
+                    <option value="Bronze">Bronce</option>
+                    <option value="Silver">Plata</option>
+                    <option value="Gold">Oro</option>
+                    <option value="Platinum">Platino</option>
+                    <option value="Diamond">Diamante</option>
+                    <option value="Ascendant">Ascendente</option>
+                    <option value="Immortal">Inmortal</option>
+                    <option value="Radiant">Radiante</option>
+                </select>
+
+                <label for="playtime">¿Cuántas horas semanales juegas Valorant?</label>
+                <select id="playtime" required>
+                    <option value="">Selecciona las horas</option>
+                    <option value="0-5">0-5 horas</option>
+                    <option value="5-10">5-10 horas</option>
+                    <option value="10-20">10-20 horas</option>
+                    <option value="20+">Más de 20 horas</option>
+                </select>
+
+                <label>Roles principales que juegas:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="duelista" name="roles">
+                        <label for="duelista">Duelista</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="centinela" name="roles">
+                        <label for="centinela">Centinela</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="iniciador" name="roles">
+                        <label for="iniciador">Iniciador</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="controlador" name="roles">
+                        <label for="controlador">Controlador</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Experiencia en el Servidor</h2>
+                <label>¿Cómo calificarías la organización de eventos?</label>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="events" value="1"> Muy Mala
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="2"> Mala
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="3"> Regular
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="4"> Buena
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="5"> Excelente
+                    </label>
+                </div>
+
+                <label>¿Qué tan útiles son los canales de comunicación del servidor?</label>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="communication" value="1"> Nada Útiles
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="2"> Poco Útiles
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="3"> Regulares
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="4"> Útiles
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="5"> Muy Útiles
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Feedback del Staff y Comunidad</h2>
+                <label for="staff">¿Qué opinas del staff del servidor?</label>
+                <textarea id="staff" rows="4" placeholder="Comparte tu experiencia con el staff..."></textarea>
+
+                <label for="toxicity">¿Has experimentado toxicidad en el servidor?</label>
+                <select id="toxicity" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="never">Nunca</option>
+                    <option value="rarely">Raramente</option>
+                    <option value="sometimes">A veces</option>
+                    <option value="often">Frecuentemente</option>
+                    <option value="always">Muy frecuentemente</option>
+                </select>
+
+                <label for="staffResponse">¿Cómo calificarías la respuesta del staff ante reportes o problemas?</label>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="staffResponse" value="1"> Muy Lenta
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="2"> Lenta
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="3"> Normal
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="4"> Rápida
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="5"> Muy Rápida
+                    </label>
+                </div>
+
+                <label for="communityEvents">¿Qué tipos de eventos te gustaría ver más en el servidor?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tournaments" name="events">
+                        <label for="tournaments">Torneos</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="training" name="events">
+                        <label for="training">Sesiones de Entrenamiento</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="viewing" name="events">
+                        <label for="viewing">Ver Partidas Pro</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="community" name="events">
+                        <label for="community">Eventos Casuales</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Sugerencias y Mejoras</h2>
+                
+                <label for="channels">¿Qué canales nuevos sugieres añadir al servidor?</label>
+                <textarea id="channels" rows="3" placeholder="Sugerencias para nuevos canales..."></textarea>
+
+                <label for="improvements">¿Qué mejoras sugieres para el servidor en general?</label>
+                <textarea id="improvements" rows="4" placeholder="Tus sugerencias son importantes..."></textarea>
+
+                <label for="motivation">¿Qué te motivaría a participar más activamente en el servidor?</label>
+                <textarea id="motivation" rows="3" placeholder="¿Qué te haría participar más?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Disponibilidad y Preferencias</h2>
+                
+                <label>¿En qué horarios sueles estar más activo en el servidor?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="morning" name="schedule">
+                        <label for="morning">Mañana (8am - 12pm)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="afternoon" name="schedule">
+                        <label for="afternoon">Tarde (12pm - 6pm)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="evening" name="schedule">
+                        <label for="evening">Noche (6pm - 12am)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="latenight" name="schedule">
+                        <label for="latenight">Madrugada (12am - 8am)</label>
+                    </div>
+                </div>
+
+                <label for="teamPreference">¿Prefieres jugar...?</label>
+                <select id="teamPreference" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="solo">Solo</option>
+                    <option value="duo">En dúo</option>
+                    <option value="team">En equipo completo</option>
+                    <option value="any">Me da igual</option>
+                </select>
+            </div>
+
+            <button type="submit" class="animate__animated animate__pulse">Enviar Encuesta</button>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        ¡Gracias por tus respuestas! Tu feedback nos ayudará a mejorar el servidor.
+    </div>
+
+    <script>
+// Configuración
+const CONFIG = {
+    WEBHOOK_URL: "https://discord.com/api/webhooks/1307673448910295190/Sh7apv76n9kPhd_ZNO-Mm7_0Yh5ygmFiNFeri0p6UteBZvhj1uCt3Y2Z-D0WqivCbIEb",
+    COLORS: {
+        PRIMARY: 0xFF4655,
+        SUCCESS: 0x43B581,
+        ERROR: 0xF04747
+    },
+    MESSAGE_TIMEOUT: 3000
+};
+
+// Utilidades para validación y formateo
+const Utils = {
+    isEmpty: (value) => {
+        return value === null || value === undefined || value.trim() === '';
+    },
+    
+    formatDate: () => {
+        return new Date().toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    }
+};
+
+// Manejador de formulario
+const FormHandler = {
+    getRadioValue(name) {
+        const radio = document.querySelector(`input[name="${name}"]:checked`);
+        return radio ? radio.value : null;
+    },
+
+    getCheckboxValues(name) {
+        const checked = Array.from(document.querySelectorAll(`input[name="${name}"]:checked`))
+            .map(checkbox => checkbox.nextElementSibling.textContent.trim());
+        return checked.length > 0 ? checked : null;
+    },
+
+    getFieldValue(id) {
+        const field = document.getElementById(id);
+        if (!field) return null;
+        return field.value.trim() || null;
+    },
+
+    collectFormData() {
+        return {
+            personalInfo: {
+                discord: this.getFieldValue('nickname'),
+                valorantID: this.getFieldValue('valorantID')
+            },
+            gameExperience: {
+                rank: this.getFieldValue('rank'),
+                playtime: this.getFieldValue('playtime'),
+                roles: this.getCheckboxValues('roles')
+            },
+            serverFeedback: {
+                events: this.getRadioValue('events'),
+                communication: this.getRadioValue('communication'),
+                staffResponse: this.getRadioValue('staffResponse'),
+                toxicity: this.getFieldValue('toxicity')
+            },
+            preferences: {
+                schedule: this.getCheckboxValues('schedule'),
+                teamPreference: this.getFieldValue('teamPreference')
+            },
+            feedback: {
+                staffComments: this.getFieldValue('staff'),
+                channelSuggestions: this.getFieldValue('channels'),
+                improvements: this.getFieldValue('improvements'),
+                motivation: this.getFieldValue('motivation')
+            }
+        };
+    }
+};
+
+// Generador de mensajes para Discord
+const DiscordMessageBuilder = {
+    createField(name, value, inline = false) {
+        return {
+            name,
+            value: value || "No especificado",
+            inline
+        };
+    },
+
+    buildMessage(formData) {
+        const embed = {
+            title: "📊 Nueva Respuesta de Encuesta Valorant",
+            color: CONFIG.COLORS.PRIMARY,
+            fields: [],
+            timestamp: new Date().toISOString(),
+            footer: {
+                text: `Encuesta enviada el ${Utils.formatDate()}`
+            }
+        };
+
+        // Sección: Información Personal
+        embed.fields.push(
+            this.createField("👤 Información Personal",
+                `**Discord:** ${formData.personalInfo.discord}\n` +
+                `**Valorant ID:** ${formData.personalInfo.valorantID}`
+            )
+        );
+
+        // Sección: Experiencia en el Juego
+        embed.fields.push(
+            this.createField("🎮 Experiencia en el Juego",
+                `**Rango:** ${formData.gameExperience.rank}\n` +
+                `**Horas Semanales:** ${formData.gameExperience.playtime}\n` +
+                `**Roles:** ${formData.gameExperience.roles?.join(", ")}`
+            )
+        );
+
+        // Sección: Valoraciones del Servidor
+        embed.fields.push(
+            this.createField("⭐ Valoraciones",
+                `**Eventos:** ${formData.serverFeedback.events}/5\n` +
+                `**Comunicación:** ${formData.serverFeedback.communication}/5\n` +
+                `**Respuesta Staff:** ${formData.serverFeedback.staffResponse}/5`
+            )
+        );
+
+        // Sección: Preferencias y Horarios
+        embed.fields.push(
+            this.createField("🕒 Preferencias y Disponibilidad",
+                `**Horarios:** ${formData.preferences.schedule?.join(", ")}\n` +
+                `**Preferencia de Juego:** ${formData.preferences.teamPreference}\n` +
+                `**Nivel de Toxicidad:** ${formData.serverFeedback.toxicity}`
+            )
+        );
+
+        // Sección: Feedback y Sugerencias
+        if (formData.feedback.staffComments) {
+            embed.fields.push(this.createField("💭 Comentarios sobre el Staff", formData.feedback.staffComments));
+        }
+        if (formData.feedback.channelSuggestions) {
+            embed.fields.push(this.createField("📌 Sugerencias de Canales", formData.feedback.channelSuggestions));
+        }
+        if (formData.feedback.improvements) {
+            embed.fields.push(this.createField("💡 Sugerencias de Mejora", formData.feedback.improvements));
+        }
+        if (formData.feedback.motivation) {
+            embed.fields.push(this.createField("🎯 Motivación para Participar", formData.feedback.motivation));
+        }
+
+        return {
+            embeds: [embed]
+        };
+    }
+};
+
+// Manejador de UI
+const UIHandler = {
+    showSuccess() {
+        const successMessage = document.getElementById('successMessage');
+        successMessage.style.display = 'block';
+        setTimeout(() => successMessage.style.display = 'none', CONFIG.MESSAGE_TIMEOUT);
+    },
+
+    showError(message) {
+        alert(message);
+    },
+
+    resetForm(form) {
+        form.reset();
+    }
+};
+
+// API Service
+const ApiService = {
+    async sendToDiscord(payload) {
+        try {
+            const response = await fetch(CONFIG.WEBHOOK_URL, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+            
+            if (!response.ok) {
+                throw new Error('Error en la respuesta del servidor');
+            }
+            
+            return true;
+        } catch (error) {
+            console.error("Error al enviar datos:", error);
+            throw error;
+        }
+    }
+};
+
+// Inicialización y manejo de eventos
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('surveyForm');
+    
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        try {
+            // Recolectar datos
+            const formData = FormHandler.collectFormData();
+            
+            // Construir mensaje
+            const payload = DiscordMessageBuilder.buildMessage(formData);
+            
+            // Enviar datos
+            await ApiService.sendToDiscord(payload);
+            
+            // Manejar éxito
+            UIHandler.showSuccess();
+            UIHandler.resetForm(form);
+        } catch (error) {
+            UIHandler.showError("Hubo un error al enviar la encuesta. Por favor, intenta nuevamente.");
+        }
+    });
+});
+    </script>
+    
