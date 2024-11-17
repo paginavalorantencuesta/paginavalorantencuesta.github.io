@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta Servidor Valorant</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="progress-bar" id="progressBar"></div>
+    
+    <header class="header">
+        <h1 class="title animate__animated animate__fadeInDown">Encuesta Servidor Valorant</h1>
+        <p class="subtitle animate__animated animate__fadeIn">¡Ayúdanos a crear la mejor comunidad!</p>
+    </header>
+
+    <div class="container">
+        <form id="surveyForm" class="animate__animated animate__fadeInUp">
+            <div class="form-group">
+                <h2 class="form-section-title">Información Personal</h2>
+                <label for="nickname">Nickname de Discord</label>
+                <input type="text" id="nickname" required placeholder="Tu nickname#0000">
+                
+                <label for="valorantID">ID de Valorant</label>
+                <input type="text" id="valorantID" required placeholder="Nombre#TAG">
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Experiencia en el Juego</h2>
+                <label for="rank">Rango Actual en Valorant</label>
+                <select id="rank" required>
+                    <option value="">Selecciona tu rango</option>
+                    <option value="Iron">Hierro</option>
+                    <option value="Bronze">Bronce</option>
+                    <option value="Silver">Plata</option>
+                    <option value="Gold">Oro</option>
+                    <option value="Platinum">Platino</option>
+                    <option value="Diamond">Diamante</option>
+                    <option value="Ascendant">Ascendente</option>
+                    <option value="Immortal">Inmortal</option>
+                    <option value="Radiant">Radiante</option>
+                </select>
+
+                <label for="playtime">¿Cuántas horas semanales juegas Valorant?</label>
+                <select id="playtime" required>
+                    <option value="">Selecciona las horas</option>
+                    <option value="0-5">0-5 horas</option>
+                    <option value="5-10">5-10 horas</option>
+                    <option value="10-20">10-20 horas</option>
+                    <option value="20+">Más de 20 horas</option>
+                </select>
+
+                <label>Roles principales que juegas:</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="duelista" name="roles">
+                        <label for="duelista">Duelista</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="centinela" name="roles">
+                        <label for="centinela">Centinela</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="iniciador" name="roles">
+                        <label for="iniciador">Iniciador</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="controlador" name="roles">
+                        <label for="controlador">Controlador</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Experiencia en el Servidor</h2>
+                <label>¿Cómo calificarías la organización de eventos?</label>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="events" value="1"> Muy Mala
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="2"> Mala
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="3"> Regular
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="4"> Buena
+                    </label>
+                    <label>
+                        <input type="radio" name="events" value="5"> Excelente
+                    </label>
+                </div>
+
+                <label>¿Qué tan útiles son los canales de comunicación del servidor?</label>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="communication" value="1"> Nada Útiles
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="2"> Poco Útiles
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="3"> Regulares
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="4"> Útiles
+                    </label>
+                    <label>
+                        <input type="radio" name="communication" value="5"> Muy Útiles
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Feedback del Staff y Comunidad</h2>
+                <label for="staff">¿Qué opinas del staff del servidor?</label>
+                <textarea id="staff" rows="4" placeholder="Comparte tu experiencia con el staff..."></textarea>
+
+                <label for="toxicity">¿Has experimentado toxicidad en el servidor?</label>
+                <select id="toxicity" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="never">Nunca</option>
+                    <option value="rarely">Raramente</option>
+                    <option value="sometimes">A veces</option>
+                    <option value="often">Frecuentemente</option>
+                    <option value="always">Muy frecuentemente</option>
+                </select>
+
+                <label for="staffResponse">¿Cómo calificarías la respuesta del staff ante reportes o problemas?</label>
+                <div class="rating">
+                    <label>
+                        <input type="radio" name="staffResponse" value="1"> Muy Lenta
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="2"> Lenta
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="3"> Normal
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="4"> Rápida
+                    </label>
+                    <label>
+                        <input type="radio" name="staffResponse" value="5"> Muy Rápida
+                    </label>
+                </div>
+
+                <label for="communityEvents">¿Qué tipos de eventos te gustaría ver más en el servidor?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="tournaments" name="events">
+                        <label for="tournaments">Torneos</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="training" name="events">
+                        <label for="training">Sesiones de Entrenamiento</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="viewing" name="events">
+                        <label for="viewing">Ver Partidas Pro</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="community" name="events">
+                        <label for="community">Eventos Casuales</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Sugerencias y Mejoras</h2>
+                
+                <label for="channels">¿Qué canales nuevos sugieres añadir al servidor?</label>
+                <textarea id="channels" rows="3" placeholder="Sugerencias para nuevos canales..."></textarea>
+
+                <label for="improvements">¿Qué mejoras sugieres para el servidor en general?</label>
+                <textarea id="improvements" rows="4" placeholder="Tus sugerencias son importantes..."></textarea>
+
+                <label for="motivation">¿Qué te motivaría a participar más activamente en el servidor?</label>
+                <textarea id="motivation" rows="3" placeholder="¿Qué te haría participar más?"></textarea>
+            </div>
+
+            <div class="form-group">
+                <h2 class="form-section-title">Disponibilidad y Preferencias</h2>
+                
+                <label>¿En qué horarios sueles estar más activo en el servidor?</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="morning" name="schedule">
+                        <label for="morning">Mañana (8am - 12pm)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="afternoon" name="schedule">
+                        <label for="afternoon">Tarde (12pm - 6pm)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="evening" name="schedule">
+                        <label for="evening">Noche (6pm - 12am)</label>
+                    </div>
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="latenight" name="schedule">
+                        <label for="latenight">Madrugada (12am - 8am)</label>
+                    </div>
+                </div>
+
+                <label for="teamPreference">¿Prefieres jugar...?</label>
+                <select id="teamPreference" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="solo">Solo</option>
+                    <option value="duo">En dúo</option>
+                    <option value="team">En equipo completo</option>
+                    <option value="any">Me da igual</option>
+                </select>
+            </div>
+
+            <button type="submit" class="animate__animated animate__pulse">Enviar Encuesta</button>
+        </form>
+    </div>
+
+    <div class="success-message" id="successMessage">
+        ¡Gracias por tus respuestas! Tu feedback nos ayudará a mejorar el servidor.
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
